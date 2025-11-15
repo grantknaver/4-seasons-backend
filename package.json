@@ -1,0 +1,35 @@
+{
+  "type": "module",
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "description": "Minimal Node + Express + Prettier starter",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "node",
+    "express",
+    "prettier"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "express-slow-down": "^3.0.0",
+    "openai": "^5.19.1"
+  },
+  "devDependencies": {
+    "cross-env": "^10.0.0",
+    "nodemon": "^3.1.0",
+    "prettier": "^3.3.3"
+  }
+}
