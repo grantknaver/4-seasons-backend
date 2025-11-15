@@ -23,6 +23,7 @@ if (!isProduction) {
 }
 
 const app = express();
+app.set('trust proxy', 1);
 
 // --------------------------------------
 // Config / Env Vars
