@@ -38,11 +38,12 @@ app.use(express.json());
 app.use(
   cors({
     origin: isProduction
-      ? ['https://your-live-frontend.com'] // TODO: update this
+      ? ['https://glkfreelance.com', 'https://www.glkfreelance.com']
       : ['http://localhost:9000'],
-    methods: ['POST', 'GET', 'PUT'],
+
+    methods: ['GET', 'POST', 'PUT'],
     allowedHeaders: ['Content-Type', 'X-Forwarded-For'],
-    credentials: true,
+    credentials: true, // allow cookies, auth headers
   })
 );
 
