@@ -38,36 +38,6 @@ const allowedOrigins = [
 ];
 
 // --------------------------------------
-// Middleware
-// --------------------------------------
-app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(express.json());
-app.use(
-  cors({
-    origin(origin, callback) {
-      // Allow non-browser / server-to-server requests (no Origin header)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      console.warn('Blocked CORS origin:', origin);
-      return callback(new Error('Not allowed by CORS'));
-    },
-    methods: ['GET', 'POST', 'PUT'],
-    allowedHeaders: [
-      'Content-Type',
-      'X-Forwarded-For',
-      'X-Requested-With',
-      'Authorization',
-      'X-Recaptcha-Token',
-    ],
-    credentials: true, // allow cookies, auth headers
-  })
-);
-
-// --------------------------------------
 // Rate Limiting / Slowdown
 // --------------------------------------
 const ipLimiter = rateLimit({
