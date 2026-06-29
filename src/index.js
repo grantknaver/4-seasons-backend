@@ -22,6 +22,15 @@ if (!isProduction) {
   console.log('Running in production (Render), env vars come from Render dashboard.');
 }
 
+const COOKIE_SECRET = process.env.COOKIE_SECRET;
+
+if (!COOKIE_SECRET) {
+  throw new Error('COOKIE_SECRET is required');
+}
+
+// --------------------------------------
+// App Setup
+// --------------------------------------
 const app = express();
 app.set('trust proxy', 1);
 
@@ -33,9 +42,34 @@ const API_PREFIX = '/api';
 
 const allowedOrigins = [
   'http://localhost:9000',
+  'http://localhost:9001',
   'https://glkfreelance.com',
   'https://www.glkfreelance.com',
 ];
+
+// --------------------------------------
+// Middleware
+// --------------------------------------
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Allows requests with no origin, like Postman, curl, server-to-server, etc.
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
+    credentials: true,
+  })
+);
+
+app.use(cookieParser(COOKIE_SECRET));
+app.use(express.json());
 
 // --------------------------------------
 // Rate Limiting / Slowdown
@@ -67,4 +101,6 @@ app.use(API_PREFIX, api);
 // --------------------------------------
 // Start Server
 // --------------------------------------
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
